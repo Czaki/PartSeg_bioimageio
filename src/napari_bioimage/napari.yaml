@@ -1,0 +1,15 @@
+name: napari-bioimage
+display_name: Biomodels
+contributions:
+  commands:
+    - id: napari-bioimage.model_list
+      python_name: napari_bioimage._widget:ModelListWidget
+      title: List of models
+    - id: napari-bioimage.model
+      python_name: napari_bioimage._widget:ModelWidget
+      title: Model control
+  widgets:
+    - command: napari-bioimage.model_list
+      display_name: List of models
+    - command: napari-bioimage.model
+      display_name: Model control
