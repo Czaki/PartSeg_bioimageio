@@ -426,11 +426,9 @@ class ReconstructMultipleClassFromLayer(QWidget):
         max_class = class_data.argmax(axis=-3)
         max_class[class_data.max(axis=-3) < thr_val] = 0
 
-        components = measure.label(max_class, connectivity=1)
+        components = measure.label(max_class > 0, connectivity=1)
         res = np.zeros(components.shape, dtype=np.uint16)
-        props = measure.regionprops(
-            (components > 0).astype(np.uint8), max_class
-        )
+        props = measure.regionprops(components, max_class)
 
         bbox_step = len(props[0].bbox) // 2
 
@@ -445,7 +443,8 @@ class ReconstructMultipleClassFromLayer(QWidget):
             res[bbox][prop.image] = component_num + 1
 
         self.viewer.add_labels(res, name="Reconstructed")
-        self.viewer.add_labels(max_class, name="Max class")
+        # self.viewer.add_labels(max_class, name="Max class")
+        # self.viewer.add_labels(components, name="Components")
 
     def reset_choices(self, event=None):
         self.class_layer.reset_choices(event)
