@@ -27,6 +27,7 @@ from napari.qt import thread_worker
 from qtpy.QtCore import Qt
 from qtpy.QtGui import QImage, QPixmap
 from qtpy.QtWidgets import (
+    QDoubleSpinBox,
     QFileDialog,
     QFrame,
     QLabel,
@@ -37,6 +38,7 @@ from qtpy.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+from skimage import measure
 
 from ._settings import get_settings
 from .zenodo import (
@@ -333,6 +335,7 @@ class ModelWidget(QWidget):
         layout.addWidget(self.run_model_btn)
         layout.addWidget(self.load_sample_data_btn)
         layout.addWidget(self.load_model_from_disc_btn)
+        self.image_layer.reset_choices()
 
     def load_rdf(self, model_rdf, rdf_path: str):
 
@@ -348,7 +351,6 @@ class ModelWidget(QWidget):
         _load(rdf_path)
 
     def _load_model_finished(self, model_data):
-        print("wwwww")
         self.model_data = model_data
         self.run_model_btn.setEnabled(True)
 
@@ -358,13 +360,16 @@ class ModelWidget(QWidget):
         )
         input_ = self.image_layer.value.data
         axes = tuple(self.model_data.inputs[0].axes)
+        if len(axes) > input_.ndim:
+            input_ = input_.reshape(
+                (1,) * (len(axes) - input_.ndim) + input_.shape
+            )
         input_tensor = xr.DataArray(input_, dims=axes)
 
         prediction = pred_pipeline(input_tensor)[0]
         self.viewer.add_image(prediction, name="Prediction")
 
     def _load_sample_data(self):
-        print("wwww")
         if self.model_data is None:
             return
         print(self.model_data.test_inputs, self.model_data.test_outputs)
@@ -378,14 +383,73 @@ class ModelWidget(QWidget):
         file_name, ok = QFileDialog.getOpenFileName(
             self,
             "Open file",
-            get_settings().save_model_dir,
+            get_settings().last_model_dir,
             "Model files (*.yaml)",
         )
         if not ok:
             return
+        get_settings().last_model_dir = os.path.dirname(file_name)
+        get_settings().dump()
         with open(file_name) as f:
             model_rdf = yaml.safe_load(f)
-        self.load_rdf(model_rdf, os.path.dirname(file_name))
+        self.load_rdf(model_rdf, file_name)
 
     def reset_choices(self, event=None):
         self.image_layer.reset_choices(event)
+
+    def showEvent(self, event) -> None:
+        self.reset_choices()
+        return super().showEvent(event)
+
+
+class ReconstructMultipleClassFromLayer(QWidget):
+    def __init__(self, napari_viewer: "napari.Viewer"):
+        super().__init__()
+        self.viewer = napari_viewer
+        self.class_layer = create_widget(
+            annotation=Image, label="Class", options={}
+        )
+        self.data_threshold = QDoubleSpinBox(self)
+        self.data_threshold.setValue(0.5)
+        self.reconstruct_btn = QPushButton("Reconstruct")
+        self.reconstruct_btn.clicked.connect(self._reconstruct)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.class_layer.native)
+        layout.addWidget(self.data_threshold)
+        layout.addWidget(self.reconstruct_btn)
+
+    def _reconstruct(self):
+        thr_val = self.data_threshold.value()
+        class_data = np.array(self.class_layer.value.data)
+
+        max_class = class_data.argmax(axis=-3)
+        max_class[class_data.max(axis=-3) < thr_val] = 0
+
+        components = measure.label(max_class, connectivity=1)
+        res = np.zeros(components.shape, dtype=np.uint16)
+        props = measure.regionprops(
+            (components > 0).astype(np.uint8), max_class
+        )
+
+        bbox_step = len(props[0].bbox) // 2
+
+        for prop in props:
+            component_num = np.bincount(prop.image_intensity[prop.image])[
+                1:
+            ].argmax()
+            bbox = tuple(
+                slice(x, y)
+                for x, y in zip(prop.bbox[:bbox_step], prop.bbox[bbox_step:])
+            )
+            res[bbox][prop.image] = component_num + 1
+
+        self.viewer.add_labels(res, name="Reconstructed")
+        self.viewer.add_labels(max_class, name="Max class")
+
+    def reset_choices(self, event=None):
+        self.class_layer.reset_choices(event)
+
+    def showEvent(self, event) -> None:
+        self.reset_choices()
+        return super().showEvent(event)
