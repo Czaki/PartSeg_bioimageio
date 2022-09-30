@@ -319,6 +319,9 @@ class ModelWidget(QWidget):
         self.image_layer = create_widget(
             annotation=Image, label="Image", options={}
         )
+        self.image_layer2 = create_widget(
+            annotation=Image, label="Image", options={}
+        )
 
         self.run_model_btn = QPushButton("Run model")
         self.run_model_btn.clicked.connect(self.run_model)
@@ -332,10 +335,11 @@ class ModelWidget(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(self.header)
         layout.addWidget(self.image_layer.native)
+        layout.addWidget(self.image_layer2.native)
         layout.addWidget(self.run_model_btn)
         layout.addWidget(self.load_sample_data_btn)
         layout.addWidget(self.load_model_from_disc_btn)
-        self.image_layer.reset_choices()
+        self.reset_choices()
 
     def load_rdf(self, model_rdf, rdf_path: str):
 
@@ -359,6 +363,8 @@ class ModelWidget(QWidget):
             bioimageio_model=self.model_data
         )
         input_ = self.image_layer.value.data
+        input2_ = self.image_layer2.value.data
+        input_ = np.concatenate([input_, input2_], axis=-3)
         axes = tuple(self.model_data.inputs[0].axes)
         if len(axes) > input_.ndim:
             input_ = input_.reshape(
@@ -367,7 +373,9 @@ class ModelWidget(QWidget):
         input_tensor = xr.DataArray(input_, dims=axes)
 
         prediction = pred_pipeline(input_tensor)[0]
-        self.viewer.add_image(prediction, name="Prediction")
+        self.viewer.add_image(
+            prediction, name="Prediction", scale=self.image_layer.value.scale
+        )
 
     def _load_sample_data(self):
         if self.model_data is None:
@@ -396,6 +404,7 @@ class ModelWidget(QWidget):
 
     def reset_choices(self, event=None):
         self.image_layer.reset_choices(event)
+        self.image_layer2.reset_choices(event)
 
     def showEvent(self, event) -> None:
         self.reset_choices()
@@ -442,7 +451,11 @@ class ReconstructMultipleClassFromLayer(QWidget):
             )
             res[bbox][prop.image] = component_num + 1
 
-        self.viewer.add_labels(res, name="Reconstructed")
+        self.viewer.add_labels(
+            res,
+            name="Reconstructed",
+            scale=self.class_layer.value.scale[-res.ndim :],  # noqa: E203
+        )
         # self.viewer.add_labels(max_class, name="Max class")
         # self.viewer.add_labels(components, name="Components")
 
