@@ -29,5 +29,5 @@ def register():
 
     register_fun(
         segmentation_algorithm.BioimageioROIExtraction,
-        RegisterEnum.segmentation,
+        RegisterEnum.analysis_algorithm,
     )
