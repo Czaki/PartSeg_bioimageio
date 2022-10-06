@@ -1,4 +1,4 @@
-from napari_bioimage._io import extract_urls, load_model_rdf
+from PartSeg_bioimageio_support._io import extract_urls, load_model_rdf
 
 
 def test_extract_urls(data_dir):

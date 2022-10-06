@@ -1,6 +1,6 @@
 import numpy as np
 
-from napari_bioimage import ExampleQWidget, example_magic_widget
+from PartSeg_bioimageio_support import ExampleQWidget, example_magic_widget
 
 
 # make_napari_viewer is a pytest fixture that returns a napari viewer object

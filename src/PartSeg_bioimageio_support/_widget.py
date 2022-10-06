@@ -323,6 +323,10 @@ class ModelWidget(QWidget):
             annotation=Image, label="Image", options={}
         )
 
+        self.image_layer3 = create_widget(
+            annotation=Image, label="Image", options={}
+        )
+
         self.run_model_btn = QPushButton("Run model")
         self.run_model_btn.clicked.connect(self.run_model)
         self.run_model_btn.setEnabled(False)
@@ -336,6 +340,7 @@ class ModelWidget(QWidget):
         layout.addWidget(self.header)
         layout.addWidget(self.image_layer.native)
         layout.addWidget(self.image_layer2.native)
+        layout.addWidget(self.image_layer3.native)
         layout.addWidget(self.run_model_btn)
         layout.addWidget(self.load_sample_data_btn)
         layout.addWidget(self.load_model_from_disc_btn)
@@ -364,7 +369,8 @@ class ModelWidget(QWidget):
         )
         input_ = self.image_layer.value.data
         input2_ = self.image_layer2.value.data
-        input_ = np.concatenate([input_, input2_], axis=-3)
+        input3_ = self.image_layer2.value.data
+        input_ = np.concatenate([input_, input2_, input3_], axis=-3)
         axes = tuple(self.model_data.inputs[0].axes)
         if len(axes) > input_.ndim:
             input_ = input_.reshape(
@@ -405,6 +411,7 @@ class ModelWidget(QWidget):
     def reset_choices(self, event=None):
         self.image_layer.reset_choices(event)
         self.image_layer2.reset_choices(event)
+        self.image_layer3.reset_choices(event)
 
     def showEvent(self, event) -> None:
         self.reset_choices()
