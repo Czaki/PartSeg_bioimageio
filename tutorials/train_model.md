@@ -27,7 +27,21 @@ connected with background auto fluorescence that are marked as "Unknown extra" c
 ### Data filtering
 
 Base on manual verification and results of measurements, part of data should be moved to verification set (different from train and test).
-The labeling of elements of this set should be verified manually.
+The labeling of elements from this set should be verified manually.
+
+
+### Model fit
+
+For train model we use a nice package [torch-em](https://github.com/constantinpape/torch-em) [1].
+
+First wee need to implement custom data reader to handle PartSeg projects [wkleić kod]
+
 
 
 Sample code available https://github.com/Czaki/entropy-calculation/
+
+
+## Citations
+
+1. Constantin Pape, Fynn Beuttenmüller, JonasHell, & Wei Ouyang. (2022). constantinpape/torch-em: Jupyter notebooks (0.4.0). Zenodo. https://doi.org/10.5281/zenodo.6415314
+
