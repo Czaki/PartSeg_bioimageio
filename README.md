@@ -1,4 +1,4 @@
-# napari_biomodel
+# PartSeg_bioimageio
 
 [![License BSD-3](https://img.shields.io/pypi/l/napari_biomodel.svg?color=green)](https://github.com/czaki/napari_biomodel/raw/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/napari_biomodel.svg?color=green)](https://pypi.org/project/napari_biomodel)
@@ -7,11 +7,13 @@
 [![codecov](https://codecov.io/gh/czaki/napari_biomodel/branch/main/graph/badge.svg)](https://codecov.io/gh/czaki/napari_biomodel)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari_biomodel)](https://napari-hub.org/plugins/napari_biomodel)
 
-Biomodel RDF plugin
+Plugin for perform segmentation using bioimageio models.
 
 ----------------------------------
 
-This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
+
+
+This [PartSeg] and [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
 
 <!--
 Don't miss the full getting started guide to set up your new package:
@@ -23,15 +25,15 @@ https://napari.org/plugins/index.html
 
 ## Installation
 
-You can install `napari_biomodel` via [pip]:
+You can install `PartSeg_bioimageio` via [pip]:
 
-    pip install napari_biomodel
+    pip install PartSeg_bioimageio
 
 
 
 To install latest development version :
 
-    pip install git+https://github.com/czaki/napari_biomodel.git
+    pip install git+https://github.com/czaki/PartSeg_bioimageio.git
 
 
 ## Contributing
@@ -42,12 +44,13 @@ the coverage at least stays the same before you submit a pull request.
 ## License
 
 Distributed under the terms of the [BSD-3] license,
-"napari_biomodel" is free and open source software
+"PartSeg_bioimageio" is free and open source software
 
 ## Issues
 
 If you encounter any problems, please [file an issue] along with a detailed description.
 
+[PartSeg]: https://github.com/4DNucleome/PartSeg/
 [napari]: https://github.com/napari/napari
 [Cookiecutter]: https://github.com/audreyr/cookiecutter
 [@napari]: https://github.com/napari
@@ -59,7 +62,7 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 [Mozilla Public License 2.0]: https://www.mozilla.org/media/MPL/2.0/index.txt
 [cookiecutter-napari-plugin]: https://github.com/napari/cookiecutter-napari-plugin
 
-[file an issue]: https://github.com/czaki/napari_biomodel/issues
+[file an issue]: https://github.com/czaki/PartSeg_bioimageio/issues
 
 [napari]: https://github.com/napari/napari
 [tox]: https://tox.readthedocs.io/en/latest/
