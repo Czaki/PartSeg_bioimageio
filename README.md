@@ -1,11 +1,11 @@
 # PartSeg_bioimageio
 
-[![License BSD-3](https://img.shields.io/pypi/l/napari_biomodel.svg?color=green)](https://github.com/czaki/napari_biomodel/raw/main/LICENSE)
-[![PyPI](https://img.shields.io/pypi/v/napari_biomodel.svg?color=green)](https://pypi.org/project/napari_biomodel)
-[![Python Version](https://img.shields.io/pypi/pyversions/napari_biomodel.svg?color=green)](https://python.org)
-[![tests](https://github.com/czaki/napari_biomodel/workflows/tests/badge.svg)](https://github.com/czaki/napari_biomodel/actions)
-[![codecov](https://codecov.io/gh/czaki/napari_biomodel/branch/main/graph/badge.svg)](https://codecov.io/gh/czaki/napari_biomodel)
-[![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari_biomodel)](https://napari-hub.org/plugins/napari_biomodel)
+[![License BSD-3](https://img.shields.io/pypi/l/PartSeg_bioimageio.svg?color=green)](https://github.com/czaki/PartSeg_bioimageio/raw/main/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/PartSeg_bioimageio.svg?color=green)](https://pypi.org/project/PartSeg_bioimageio)
+[![Python Version](https://img.shields.io/pypi/pyversions/PartSeg_bioimageio.svg?color=green)](https://python.org)
+[![tests](https://github.com/czaki/PartSeg_bioimageio/workflows/tests/badge.svg)](https://github.com/czaki/PartSeg_bioimageio/actions)
+[![codecov](https://codecov.io/gh/czaki/PartSeg_bioimageio/branch/main/graph/badge.svg)](https://codecov.io/gh/czaki/PartSeg_bioimageio)
+[![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/PartSeg_bioimageio)](https://napari-hub.org/plugins/PartSeg_bioimageio)
 
 Plugin for perform segmentation using bioimageio models.
 
