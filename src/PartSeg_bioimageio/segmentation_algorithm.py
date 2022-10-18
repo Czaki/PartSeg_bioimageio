@@ -1,17 +1,21 @@
-from pathlib import Path
 from typing import Callable
 
-from magicgui.types import PathLike
 from PartSegCore.segmentation import ROIExtractionResult
 from PartSegCore.segmentation.restartable_segmentation_algorithms import (
     RestartableAlgorithm,
 )
 from PartSegCore.utils import BaseModel
+from pydantic import Field
+
+from .partseg_widgets import BioImageModel
 
 
 class MulticlassROIExtractionParameters(BaseModel):
     base_threshold: float = 0.5
-    model_path: PathLike = Path.home()
+    model_path: BioImageModel = Field(
+        BioImageModel(path="", channels=[]), title="Model"
+    )
+    val: int = 1
 
 
 class BioimageioROIExtraction(RestartableAlgorithm):
