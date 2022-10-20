@@ -56,6 +56,10 @@ class BioImageWidget(Container):
                     self.remove(self.channel_select_li[-1])
                     self.channel_select_li.pop()
 
+    def change_channels_num(self, image):
+        for el in self.channel_select_li:
+            el.change_channels_num(image.channels)
+
     @property
     def value(self) -> BioImageModel:
         return BioImageModel(
