@@ -28,4 +28,4 @@ class BioimageioROIExtraction(RestartableAlgorithm):
 
     @classmethod
     def get_name(cls) -> str:
-        return "BioimageIO ROI Extraction"
+        return "BioimageIO Multilabel"

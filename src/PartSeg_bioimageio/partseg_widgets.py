@@ -1,6 +1,7 @@
 from magicgui import register_type
 from magicgui.types import PathLike
-from magicgui.widgets import Container, FileEdit, SpinBox
+from magicgui.widgets import Container, FileEdit, create_widget
+from PartSegImage import Channel
 
 
 class BioImageModel:
@@ -42,13 +43,13 @@ class BioImageWidget(Container):
             self.file_select.value.exists()
             and self.file_select.value.is_file()
         ):
-
             chnnels_num = calc_number_of_channels(self.file_select.value)
             if len(self.channel_select_li) < chnnels_num:
                 for i in range(len(self.channel_select_li), chnnels_num):
-                    self.channel_select_li.append(
-                        SpinBox(label=f"Channel {i}")
+                    w = create_widget(
+                        annotation=Channel, label=f"Channel {i}", options={}
                     )
+                    self.channel_select_li.append(w)
                     self.append(self.channel_select_li[-1])
             elif len(self.channel_select_li) > chnnels_num:
                 for _ in range(chnnels_num, len(self.channel_select_li)):
@@ -64,6 +65,8 @@ class BioImageWidget(Container):
     @value.setter
     def value(self, value: BioImageModel):
         self.file_select.value = value.path
+        for ch, v in zip(self.channel_select_li, value.channels):
+            ch.value = v
 
 
 register_type(BioImageModel, widget_type=BioImageWidget)
