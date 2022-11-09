@@ -1,6 +1,7 @@
 from typing import Callable
 
 import numpy as np
+import SimpleITK
 import xarray as xr
 from bioimageio.core import load_resource_description
 from bioimageio.core.prediction_pipeline import create_prediction_pipeline
@@ -21,7 +22,7 @@ class MulticlassROIExtractionParameters(BaseModel):
     model_path: BioImageModel = Field(
         BioImageModel(path="", channels=[]), title="Model"
     )
-    val: int = 1
+    minimum_size: int = Field(20, title="Minimum size (px)")
 
 
 class BioimageioROIExtraction(RestartableAlgorithm):
@@ -33,6 +34,7 @@ class BioimageioROIExtraction(RestartableAlgorithm):
         self.model_data = None
         self.prediction = None
         self.labeling = None
+        self.components = None
 
     def calculation_run(
         self, report_fun: Callable[[str, int], None]
@@ -65,18 +67,25 @@ class BioimageioROIExtraction(RestartableAlgorithm):
             input_ = xr.DataArray(np.concatenate(data, axis=-3), dims=axes)
             self.prediction = np.array(self.prediction_pipeline(input_)[0])
             restarted = True
-        if restarted or self.new_parameters[
-            "base_threshold"
-        ] != self.parameters.get("base_threshold", None):
+        if (
+            restarted
+            or self.new_parameters.base_threshold
+            != self.parameters.get("base_threshold", None)
+            or self.new_parameters.minimum_size
+            != self.parameters.get("minimum_size", None)
+        ):
             self._reconstruct()
 
         return ROIExtractionResult(
-            roi=self.labeling,
+            roi=self.components,
             parameters=self.get_segmentation_profile(),
             additional_layers={
                 "prediction": AdditionalLayerDescription(
                     self.prediction, "image", "prediction"
                 )
+            },
+            alternative_representation={
+                "Labeling": self.labeling,
             },
         )
 
@@ -87,7 +96,17 @@ class BioimageioROIExtraction(RestartableAlgorithm):
             self.prediction.max(axis=-3) < self.new_parameters.base_threshold
         ] = 0
 
-        components = measure.label(max_class > 0, connectivity=1)
+        components = SimpleITK.GetArrayFromImage(
+            SimpleITK.RelabelComponent(
+                SimpleITK.ConnectedComponent(
+                    SimpleITK.GetImageFromArray(
+                        (max_class > 0).astype(np.uint8)
+                    )
+                ),
+                self.new_parameters.minimum_size,
+            )
+        )
+
         res = np.zeros(components.shape, dtype=np.uint16)
         props = measure.regionprops(components, max_class)
 
@@ -103,7 +122,11 @@ class BioimageioROIExtraction(RestartableAlgorithm):
             )
             res[bbox][prop.image] = component_num + 1
         self.labeling = res
+        self.components = components
 
     @classmethod
     def get_name(cls) -> str:
         return "BioimageIO Multilabel"
+
+    def get_info_text(self):
+        return f"Found {np.max(self.components)} components"

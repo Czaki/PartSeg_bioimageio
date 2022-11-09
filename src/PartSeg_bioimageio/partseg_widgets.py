@@ -1,6 +1,8 @@
+from weakref import ref
+
 from magicgui import register_type
 from magicgui.types import PathLike
-from magicgui.widgets import Container, FileEdit, create_widget
+from magicgui.widgets import Container, EmptyWidget, FileEdit, create_widget
 from PartSegImage import Channel
 
 
@@ -31,6 +33,7 @@ class BioImageWidget(Container):
     def __init__(self, **kwargs):
         self.file_select = FileEdit(label="Path", filter="*.yaml")
         self.channel_select_li = []
+        self.image = lambda: None
         if "value" in kwargs:
             self.file_select.value = kwargs["value"].path
         self.file_select.changed.connect(self.update_model)
@@ -40,25 +43,35 @@ class BioImageWidget(Container):
 
     def update_model(self):
         if (
-            self.file_select.value.exists()
-            and self.file_select.value.is_file()
+            not self.file_select.value.exists()
+            or not self.file_select.value.is_file()
         ):
-            chnnels_num = calc_number_of_channels(self.file_select.value)
-            if len(self.channel_select_li) < chnnels_num:
-                for i in range(len(self.channel_select_li), chnnels_num):
-                    w = create_widget(
-                        annotation=Channel, label=f"Channel {i}", options={}
-                    )
-                    self.channel_select_li.append(w)
-                    self.append(self.channel_select_li[-1])
-            elif len(self.channel_select_li) > chnnels_num:
-                for _ in range(chnnels_num, len(self.channel_select_li)):
-                    self.remove(self.channel_select_li[-1])
-                    self.channel_select_li.pop()
+            return
+        channels_num = calc_number_of_channels(self.file_select.value)
+        if len(self.channel_select_li) < channels_num:
+            for i in range(len(self.channel_select_li), channels_num):
+                w = create_widget(
+                    annotation=Channel, label=f"Channel {i}", options={}
+                )
+                if isinstance(w, EmptyWidget):
+                    raise ValueError("Can't create widget")
+                self.channel_select_li.append(w)
+                self.append(self.channel_select_li[-1])
+        elif len(self.channel_select_li) > channels_num:
+            for _ in range(channels_num, len(self.channel_select_li)):
+                self.remove(self.channel_select_li[-1])
+                self.channel_select_li.pop()
+
+        self.change_channels_num(self.image())
 
     def change_channels_num(self, image):
+        if image is None:
+            self.image = lambda: None
+            return
+        self.image = ref(image)
         for el in self.channel_select_li:
-            el.change_channels_num(image.channels)
+            if hasattr(el, "change_channels_num"):
+                el.change_channels_num(image.channels)
 
     @property
     def value(self) -> BioImageModel:
