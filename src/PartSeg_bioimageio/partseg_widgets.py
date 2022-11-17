@@ -31,7 +31,11 @@ class BioImageWidget(Container):
     multiline = True
 
     def __init__(self, **kwargs):
-        self.file_select = FileEdit(label="Path", filter="*.yaml")
+        self.file_select = FileEdit(
+            label="Model RDF",
+            filter="*.yaml",
+            tooltip="Path to model RDF file",
+        )
         self.channel_select_li = []
         self.image = lambda: None
         if "value" in kwargs:
@@ -51,7 +55,9 @@ class BioImageWidget(Container):
         if len(self.channel_select_li) < channels_num:
             for i in range(len(self.channel_select_li), channels_num):
                 w = create_widget(
-                    annotation=Channel, label=f"Channel {i}", options={}
+                    annotation=Channel,
+                    label=f"Channel {i}",
+                    options={"tooltip": "Select channel"},
                 )
                 if isinstance(w, EmptyWidget):
                     raise ValueError("Can't create widget")

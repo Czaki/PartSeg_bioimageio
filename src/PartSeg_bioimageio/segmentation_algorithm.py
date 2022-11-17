@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Callable
 
 import numpy as np
@@ -18,11 +19,23 @@ from .partseg_widgets import BioImageModel
 
 
 class MulticlassROIExtractionParameters(BaseModel):
-    base_threshold: float = 0.5
     model_path: BioImageModel = Field(
-        BioImageModel(path="", channels=[]), title="Model"
+        BioImageModel(path="", channels=[]),
+        title="<strong>Deep learning model</strong>",
+        description="Path to model and selection of channels",
     )
-    minimum_size: int = Field(20, title="Minimum size (px)")
+    base_threshold: float = Field(
+        0.5,
+        title="Background threshold",
+        description="All pixels for each prediction probability"
+        " is bellow this value is treated as background",
+        prefix="<strong>Reconstruction parameters</strong>",
+    )
+    minimum_size: int = Field(
+        20,
+        title="Minimum size (px)",
+        description="All objects smaller than this will be dropped",
+    )
 
 
 class BioimageioROIExtraction(RestartableAlgorithm):
@@ -35,6 +48,7 @@ class BioimageioROIExtraction(RestartableAlgorithm):
         self.prediction = None
         self.labeling = None
         self.components = None
+        self.annotation = {}
 
     def calculation_run(
         self, report_fun: Callable[[str, int], None]
@@ -78,6 +92,7 @@ class BioimageioROIExtraction(RestartableAlgorithm):
 
         return ROIExtractionResult(
             roi=self.components,
+            roi_annotation=self.annotation,
             parameters=self.get_segmentation_profile(),
             additional_layers={
                 "prediction": AdditionalLayerDescription(
@@ -90,6 +105,7 @@ class BioimageioROIExtraction(RestartableAlgorithm):
         )
 
     def _reconstruct(self):
+        self.annotation = {}
 
         max_class = self.prediction.argmax(axis=-3)
         max_class[
@@ -121,6 +137,10 @@ class BioimageioROIExtraction(RestartableAlgorithm):
                 for x, y in zip(prop.bbox[:bbox_step], prop.bbox[bbox_step:])
             )
             res[bbox][prop.image] = component_num + 1
+            self.annotation[prop.label] = {
+                "class": component_num + 1,
+                "size": prop.area,
+            }
         self.labeling = res
         self.components = components
 
@@ -129,4 +149,59 @@ class BioimageioROIExtraction(RestartableAlgorithm):
         return "BioimageIO Multilabel"
 
     def get_info_text(self):
-        return f"Found {np.max(self.components)} components"
+        count_dict = defaultdict(int)
+        for i in self.annotation.values():
+            count_dict[i["class"]] += 1
+        return (
+            f"Found {np.max(self.components)} components in class: "
+            + ", ".join(
+                f"{num}: {count}" for num, count in sorted(count_dict.items())
+            )
+        )
+
+
+class BioimageioROIExtractionWithBorders(BioimageioROIExtraction):
+    @classmethod
+    def get_name(cls) -> str:
+        return "BioimageIO Multilabel with borders"
+
+    def _reconstruct(self):
+        self.annotation = {}
+
+        max_class = self.prediction[:, :-1].argmax(axis=-3)
+        max_class[
+            self.prediction[:, :-1].max(axis=-3)
+            < self.new_parameters.base_threshold
+        ] = 0
+
+        components = SimpleITK.GetArrayFromImage(
+            SimpleITK.RelabelComponent(
+                SimpleITK.ConnectedComponent(
+                    SimpleITK.GetImageFromArray(
+                        (max_class > 0).astype(np.uint8)
+                    )
+                ),
+                self.new_parameters.minimum_size,
+            )
+        )
+
+        res = np.zeros(components.shape, dtype=np.uint16)
+        props = measure.regionprops(components, max_class)
+
+        bbox_step = len(props[0].bbox) // 2
+
+        for prop in props:
+            component_num = np.bincount(prop.image_intensity[prop.image])[
+                1:
+            ].argmax()
+            bbox = tuple(
+                slice(x, y)
+                for x, y in zip(prop.bbox[:bbox_step], prop.bbox[bbox_step:])
+            )
+            res[bbox][prop.image] = component_num + 1
+            self.annotation[prop.label] = {
+                "class": component_num + 1,
+                "size": prop.area,
+            }
+        self.labeling = res
+        self.components = components

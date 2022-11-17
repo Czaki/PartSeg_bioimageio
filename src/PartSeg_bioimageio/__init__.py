@@ -31,3 +31,7 @@ def register():
         segmentation_algorithm.BioimageioROIExtraction,
         RegisterEnum.analysis_algorithm,
     )
+    # register_fun(
+    #     segmentation_algorithm.BioimageioROIExtractionWithBorders,
+    #     RegisterEnum.analysis_algorithm,
+    # )

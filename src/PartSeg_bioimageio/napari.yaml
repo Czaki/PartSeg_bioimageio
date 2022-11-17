@@ -3,13 +3,13 @@ display_name: Biomodels
 contributions:
   commands:
     - id: PartSeg-bioimageio.model_list
-      python_name: PartSeg_bioimageio_support._widget:ModelListWidget
+      python_name: PartSeg_bioimageio._widget:ModelListWidget
       title: List of models
     - id: PartSeg-bioimageio.model
-      python_name: PartSeg_bioimageio_support._widget:ModelWidget
+      python_name: PartSeg_bioimageio._widget:ModelWidget
       title: Model control
     - id: PartSeg-bioimageio.reconstruct
-      python_name: PartSeg_bioimageio_support._widget:ReconstructMultipleClassFromLayer
+      python_name: PartSeg_bioimageio._widget:ReconstructMultipleClassFromLayer
       title: Labels reconstruct
   widgets:
     - command: PartSeg-bioimageio.model_list
