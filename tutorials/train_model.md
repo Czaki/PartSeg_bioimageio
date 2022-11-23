@@ -15,12 +15,10 @@ jupyter:
 
 # How to improve data labeling using deep learn on PartSeg output
 
-This tutorial will discuss possibilities for creating a deep learning model based on (semi)automatic segmentation methods' output.
+This tutorial discusses how to train a new deep learning model based on (semi)automatic segmentation methods' output.
 
-PartSeg provides several (semi)automatic segmentation methods (see
-Fig....). They can do segmentation on an input dataset but work the best with human help. For example some
-parameters may need to be specified like "tu parametry" for "tu method
-name". Also a single method may not be appropriate for the whole dataset. In this tutorial we present how to the output from previous segmentations done with PartSeg can be used to train a deep learning model that can be then added to PartSeg and used in a fully automated manner
+PartSeg provides several (semi)automatic segmentation methods (see Fig....). They can be used to do segmentation on an input dataset but to achieve best results require human supervision. For example "tu method name" requires providing values for some parameters like "tu parametry". Also a single method may not be appropriate for the whole dataset and the human user needs to decide on combination of methods and division of the input data.
+In this tutorial we present how to use the output from previous segmentations done with PartSeg to train a deep learning model. Such model can then be added to PartSeg and used in a fully automated manner, i.e., to perform automatic segmentation of similar datasets without human supervision.
 
 ![](images/marked_methods.png)
 
@@ -36,17 +34,13 @@ The main gain of using (semi)automatic method output is that preparing train and
 
 
 
-The data for this tutorial are available on [zenodo](https://zenodo.org/record/7335430).
-
-The data are organized in 3 folders:
+The data for this tutorial are available on [zenodo](https://zenodo.org/record/7335430). The data are organized in 3 folders:
 
 * *Train* - data for train
 * *Test* - data for test
 * *Problematic* - data with a high number of artifacts. Could be used for manual verification the model.
 
-Each folder contains PartSeg projects that contains image and segmentation.
-
-The raw data on which this dataset is build could be found also on [zenodo](https://zenodo.org/record/7335168).
+Each folder contains PartSeg projects that contains image and segmentation. The raw data on which this dataset is build could be found also on [zenodo](https://zenodo.org/record/7335168).
 
 To download and unpack the dataset please uncomment function call and execute bellow cell
 
