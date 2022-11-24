@@ -79,9 +79,14 @@ condacolab.install()
 ```
 
 ```python
+EXPORT_PATH = "exports"
+```
+
+```python
 # mount your google drive to permanently save data
 from google.colab import drive
 drive.mount("/content/gdrive")
+EXPORT_PATH = "/content/gdrive/MyDrive/exports"
 ```
 
 ```python
@@ -121,7 +126,7 @@ import torch
 import torch_em.transform
 from torch_em.model import UNet2d
 
-from train_util import get_partseg_loader
+from PartSeg_bioimageio.train_util import get_partseg_loader
 
 ```
 
@@ -224,14 +229,14 @@ from torch_em.util.modelzoo import export_bioimageio_model
 DOCUMENTATION = "Text with model documentation"
 
 export_bioimageio_model(
-    os.path.join(SAVE_ROOT, MODEL_NAME),
-    os.path.join("exports", MODEL_NAME),
+    os.path.join(SAVE_ROOT, "checkpoints", MODEL_NAME),
+    os.path.join(EXPORT_PATH, MODEL_NAME),
     name=MODEL_NAME,
     description="neutrofile model",
     authors=[{"name": "Grzegorz Bokota"}],
     license="MIT",
     documentation=DOCUMENTATION,
-    git_repo="https://github.com/Czaki/entropy-calculation/",
+    git_repo="https://github.com/Czaki/PartSeg_bioimageio/",
     cite="",
     maintainers=[{"github_user": "czaki"}],
     tags=[
