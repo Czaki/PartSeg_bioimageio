@@ -13,7 +13,7 @@ jupyter:
     name: python3
 ---
 
-# How to improve data labeling using deep learn on PartSeg output
+# How to improve data labeling using deep learning on PartSeg output
 
 In this tutorial we discuss how to train a new deep learning model based on (semi)automatic segmentation methods' output.
 
@@ -63,6 +63,11 @@ def download_and_unpack_data():
 download_and_unpack_data()
 
 ```
+
+## Google colab
+
+Run following code only if execute notebook on google colab
+
 
 It this tutorial we use [torch_em](https://github.com/constantinpape/torch-em) as a wrapper around [pytorch](https://pytorch.org/). Please read its installations [instruction](https://github.com/constantinpape/torch-em#installation). To keep readability of this document part of code will be in `train_util.py` file next to this notebook
 
