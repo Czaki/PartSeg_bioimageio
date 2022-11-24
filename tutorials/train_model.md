@@ -40,14 +40,63 @@ The data sets for this tutorial are available on [zenodo](https://zenodo.org/rec
 
 Each folder contains PartSeg projects with contains images and segmentations. The raw data on which this dataset is build is also available on [zenodo](https://zenodo.org/record/7335168).
 
-The following code downloads and unpacks the data sets:
+
+
+## Google colab
+
+Run following code only if execute notebook on google colab to setup environment
+
+```python
+# First, make sure that you are using a GPU. For this, go to:
+# Runtime->Change runtime type and select Hardware accelarator->GPU
+# When you then run this cell you should see a gpu status overview
+# (if something went wrong you will see an error message)
+!nvidia-smi
+```
+
+```python
+# Install conda in your google drive session
+!pip install -q condacolab
+import condacolab
+condacolab.install()
+```
+
+```python
+# update mamba
+!mamba update mamba
+```
+
+```python
+# install required libraries
+!mamba install -c pytorch -c conda-forge python-elf dask bioimageio.core tifffile
+```
+
+```python
+!pip install --no-deps kornia
+!pip install --no-deps PartSeg
+!pip install --no-deps git+https://github.com/constantinpape/torch-em
+!pip install --no-deps git+https://github.com/czaki/PartSeg_bioimageio
+```
+
+```python
+# mount your google drive to permanently save data
+from google.colab import drive
+drive.mount("/content/gdrive")
+```
+
 ```python
 import os
+
+data_path = os.path.join("data", "neu")
+```
+
+To download data from zenodo please execute following cell:
+
+```python
+
 import zipfile
 import tempfile
 from urllib import request
-
-data_path = os.path.join("data", "neu")
 
 def download_and_unpack_data():
     if os.path.exists(data_path) and os.listdir(data_path):
@@ -63,11 +112,6 @@ def download_and_unpack_data():
 download_and_unpack_data()
 
 ```
-
-## Google colab
-
-Run following code only if execute notebook on google colab
-
 
 It this tutorial we use [torch_em](https://github.com/constantinpape/torch-em) as a wrapper around [pytorch](https://pytorch.org/). Please read its installations [instruction](https://github.com/constantinpape/torch-em#installation). To keep readability of this document part of code will be in `train_util.py` file next to this notebook
 
@@ -88,7 +132,7 @@ NETWORK_DEPTH=4
 NETWORK_INITIAL_FEATURES=32
 PATCH_SIZE=256
 BATCH_SIZE=8
-ITERATIONS=5000
+ITERATIONS=500
 SAVE_ROOT="./checkpoint"
 ```
 
