@@ -1,6 +1,7 @@
 import os
 from functools import lru_cache
 from glob import glob
+from typing import Tuple
 
 import numpy as np
 import torch
@@ -99,7 +100,7 @@ def get_partseg_loader(
     path: str,
     split: str,
     label_name: str,
-    patch_shape: tuple[int, ...],
+    patch_shape: Tuple[int, ...],
     dtype: torch.dtype = torch.float32,
     label_dtype: torch.dtype = torch.float32,
     label_transform=None,
