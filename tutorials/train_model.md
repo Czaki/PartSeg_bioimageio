@@ -62,18 +62,22 @@ condacolab.install()
 ```
 
 ```python
+# workaround for bug in conda-forge
+!ln -s /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 /usr/lib/libfontconfig.so
+```
+
+```python
 # update mamba
 !mamba update mamba
 ```
 
 ```python
 # install required libraries
-!mamba install -c pytorch -c conda-forge python-elf dask bioimageio.core tifffile
+!mamba install -y -c pytorch -c conda-forge python-elf dask bioimageio.core PartSeg==0.14.6 npe2==0.2.2
 ```
 
 ```python
 !pip install --no-deps kornia
-!pip install --no-deps PartSeg
 !pip install --no-deps git+https://github.com/constantinpape/torch-em
 !pip install --no-deps git+https://github.com/czaki/PartSeg_bioimageio
 ```
