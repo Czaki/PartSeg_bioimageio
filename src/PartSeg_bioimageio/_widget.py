@@ -60,7 +60,6 @@ def refresh_models_remote():
             next(gen)
             yield
     except StopIteration as e:
-        # data = get_ilastik_models(e.value)
         with open(
             os.path.join(
                 get_settings().save_model_dir, MODEL_SUMMARY_FILE_NAME
@@ -122,7 +121,7 @@ class NumpyQImage(QImage):
                 image.data,
                 image.shape[1],
                 image.shape[0],
-                QImage.Format_Grayscale8,
+                QImage.Format.Format_Grayscale8,
             )
         else:
             super().__init__(
@@ -130,9 +129,9 @@ class NumpyQImage(QImage):
                 image.shape[1],
                 image.shape[0],
                 image.dtype.itemsize * image.shape[1] * image.shape[2],
-                QImage.Format_RGBA8888
+                QImage.Format.Format_RGBA8888
                 if image.shape[2] == 4
-                else QImage.Format_RGB888,
+                else QImage.Format.Format_RGB888,
             )
         self.image = image
 
@@ -149,7 +148,7 @@ class ModelListElWidget(QFrame):
     ):
         super().__init__(parent, flags)
         self.name = QLabel(f"<b>{rdf['name']}</b>")
-        self.name.setAlignment(Qt.AlignCenter)
+        self.name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.name.setWordWrap(True)
         self.description = QLabel(rdf["description"])
         self.description.setWordWrap(True)
@@ -173,7 +172,7 @@ class ModelListElWidget(QFrame):
         layout.addWidget(self.image)
         layout.addWidget(self.btn)
 
-        self.setFrameShadow(QFrame.Sunken)
+        self.setFrameShadow(QFrame.Shadow.Sunken)
 
     def btn_clicked(self):
         self.load_model_func(self.rdf, self.model_data)
