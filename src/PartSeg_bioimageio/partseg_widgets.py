@@ -28,6 +28,7 @@ class BioImageModel:
 
 
 class BioImageWidget(Container):
+    __multiline__ = True
     multiline = True
 
     def __init__(self, **kwargs):
@@ -69,6 +70,7 @@ class BioImageWidget(Container):
                 self.channel_select_li.pop()
 
         self.change_channels_num(self.image())
+        self.changed(self.value)
 
     def change_channels_num(self, image):
         if image is None:
@@ -87,7 +89,7 @@ class BioImageWidget(Container):
 
     @value.setter
     def value(self, value: BioImageModel):
-        self.file_select.value = value.path
+        # self.file_select.value = value.path
         for ch, v in zip(self.channel_select_li, value.channels):
             ch.value = v
 

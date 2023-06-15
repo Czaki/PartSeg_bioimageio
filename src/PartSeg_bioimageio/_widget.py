@@ -144,8 +144,10 @@ class ModelListElWidget(QFrame):
         model_data: dict,
         load_model_func: callable,
         parent: Optional["QWidget"] = None,
-        flags=Qt.WindowFlags(),
+        flags=None,
     ):
+        if flags is None:
+            flags = Qt.WindowFlags()
         super().__init__(parent, flags)
         self.name = QLabel(f"<b>{rdf['name']}</b>")
         self.name.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -252,7 +254,6 @@ class ModelListWidget(QWidget):
             self.model_list.setItemWidget(item, widget)
 
     def refresh_models(self):
-
         _refresh_models = thread_worker(
             refresh_models_remote, connect={"finished": self.load_models}
         )
@@ -298,7 +299,7 @@ class ModelListWidget(QWidget):
         elif sys.platform == "darwin":
             subprocess.Popen(["open", get_settings().save_model_dir])  # nosec
         elif sys.platform == "win32":
-            os.startfile(get_settings().save_model_dir)  # nosec
+            os.startfile(get_settings().save_model_dir)  # nosec  # noqa: S606
 
 
 class ModelWidget(QWidget):
@@ -346,7 +347,6 @@ class ModelWidget(QWidget):
         self.reset_choices()
 
     def load_rdf(self, model_rdf, rdf_path: str):
-
         bc.load_resource_description(rdf_path)
         self.model_rdf = model_rdf
         self.header.setText(f'<b>{model_rdf["name"]}</b>')
@@ -389,7 +389,6 @@ class ModelWidget(QWidget):
         for filename in itertools.chain(
             self.model_data.test_inputs, self.model_data.test_outputs
         ):
-
             self.viewer.add_image(np.load(filename), name=filename.name)
 
     def load_model_from_disc(self):
@@ -460,7 +459,7 @@ class ReconstructMultipleClassFromLayer(QWidget):
         self.viewer.add_labels(
             res,
             name="Reconstructed",
-            scale=self.class_layer.value.scale[-res.ndim :],  # noqa: E203
+            scale=self.class_layer.value.scale[-res.ndim :],
         )
         # self.viewer.add_labels(max_class, name="Max class")
         # self.viewer.add_labels(components, name="Components")

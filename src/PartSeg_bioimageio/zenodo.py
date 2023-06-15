@@ -12,6 +12,7 @@ def get_data_from_zenodo(url, **kwargs):
     res = requests.get(
         url,
         params={"access_token": get_settings().get_zenodo_token(), **kwargs},
+        timeout=10,
     )
     return res.json()
 
@@ -42,10 +43,10 @@ def get_model_rdf(model_zenodo_dkt: dict):
         bucket = next(
             filter(lambda x: x["key"] == "rdf.yaml", model_zenodo_dkt["files"])
         )
-    except StopIteration:
-        raise ValueError("Model RDF not found.")
+    except StopIteration as e:
+        raise ValueError("Model RDF not found.") from e
     url = bucket["links"]["self"]
-    res = requests.get(url)
+    res = requests.get(url, timeout=10)
     if res.status_code != 200:
         raise ValueError("Model RDF not found.")
     return yaml.safe_load(res.text)
@@ -56,8 +57,8 @@ def get_ilastik_models(data):
     for d in data:
         for ident in d["metadata"]["related_identifiers"]:
             if (
-                "https://bioimage.io/#/r/ilastik%2Filastik"
-                == ident["identifier"]
+                ident["identifier"]
+                == "https://bioimage.io/#/r/ilastik%2Filastik"
             ):
                 res.append(d)
                 break
@@ -81,7 +82,7 @@ def _download_single_model_base(data_model: dict):
     if (save_dir / "rdf.yaml").exists():
         return
     save_dir.mkdir(parents=True, exist_ok=True)
-    response = requests.get(_get_file_url(data_model, "rdf.yaml"))
+    response = requests.get(_get_file_url(data_model, "rdf.yaml"), timeout=10)
     if response.status_code != 200:
         raise ValueError("Modle RDF download fail")
     model = yaml.safe_load(response.text)
@@ -89,7 +90,9 @@ def _download_single_model_base(data_model: dict):
         f.write(response.text)
     if "covers" in model:
         for cover in model["covers"]:
-            res_cover = requests.get(_get_file_url(data_model, cover))
+            res_cover = requests.get(
+                _get_file_url(data_model, cover), timeout=10
+            )
             if res_cover.status_code != 200:
                 print(
                     "failed to download cover",
@@ -99,7 +102,9 @@ def _download_single_model_base(data_model: dict):
             with open(save_dir / cover, "wb") as f:
                 f.write(res_cover.content)
     if "thumb250" in data_model["links"]:
-        response_img = requests.get(data_model["links"]["thumb250"])
+        response_img = requests.get(
+            data_model["links"]["thumb250"], timeout=10
+        )
         if response_img.status_code != 200:
             return
         with open(save_dir / "thumb.png", "wb") as f:
@@ -125,7 +130,9 @@ def download_model_data(data_model: dict):
         if (save_dir / file_info["key"]).exists():
             yield
             continue
-        with requests.get(file_info["links"]["self"], stream=True) as res:
+        with requests.get(
+            file_info["links"]["self"], stream=True, timeout=10
+        ) as res:
             res.raise_for_status()
             with open(save_dir / file_info["key"], "wb") as f:
                 for chunk in res.iter_content(chunk_size=8192):

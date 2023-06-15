@@ -5,7 +5,7 @@ import yaml
 
 
 def _is_url(path: str) -> bool:
-    return urllib.parse.urlparse(path).scheme != ""
+    return bool(urllib.parse.urlparse(path).scheme)
 
 
 def download_file(url: str, target_file: Path):
@@ -18,7 +18,7 @@ def download_file(url: str, target_file: Path):
     target_file : Path
         Path to the target file.
     """
-    urllib.request.urlretrieve(url, target_file)
+    urllib.request.urlretrieve(url, target_file)  # noqa: S310
 
 
 def load_model_rdf(path: str | Path) -> dict:
@@ -58,9 +58,8 @@ def extract_urls(model: dict | list):
     for value in model:
         if isinstance(value, (dict, list)):
             res.extend(extract_urls(value))
-        else:
-            if isinstance(value, str) and _is_url(value):
-                res.append(value)
+        elif isinstance(value, str) and _is_url(value):
+            res.append(value)
     return res
 
 
@@ -88,9 +87,9 @@ def import_model_from_rdf(path: str | Path, target_dir: Path):
     """
     model = load_model_rdf(path)
 
-    for key, value in model["weights"].items():
+    for _key, value in model["weights"].items():
         if not _is_url(value["source"]):
             continue
-        urllib.request.urlretrieve(
+        urllib.request.urlretrieve(  # noqa: S310
             value["source"], target_dir / value["source"].rsplit("/", 1)[-1]
         )

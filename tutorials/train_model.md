@@ -13,6 +13,12 @@ jupyter:
     name: python3
 ---
 
+# Disclaimer
+
+This tutorial shows how to train your model using pubilicy availabe infrastructure based on google colab environment. Tutorial for using computational services is placed in `train_model_server.md`
+
+
+
 # How to improve data labeling using deep learning on PartSeg output
 
 In this tutorial we discuss how to train a new deep learning model based on (semi)automatic segmentation methods' output.

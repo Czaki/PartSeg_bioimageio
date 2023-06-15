@@ -69,7 +69,7 @@ class PartSegProjectDataset(Dataset):
         else:
             image, label = self._cache[index]
         bb = self._sample_bounding_box(image.shape[-self._ndim :])
-        image = image[(slice(None),) + bb]
+        image = image[(slice(None), *bb)]
         label = label[0][bb]
         return image, label
 

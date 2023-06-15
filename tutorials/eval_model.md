@@ -12,3 +12,10 @@
 
 Powiedzenie, że można uzyć w batchprocessingu i ostrzerzenie o tym, że jeżeli instalacja pytorcha używa cudy,
 to trzeba uważać na pamięć GPU.
+
+## Prepare data
+
+To load the data user could drag and drop the file to PartSeg window or use `File->Open` menu.
+In this tutorial we will use the image from [Zenodo](link_here).
+
+![Main window view](images/PartSeg_main_window.png)

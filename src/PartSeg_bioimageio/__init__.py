@@ -7,7 +7,7 @@ from ._settings import get_settings
 
 try:
     # noinspection PyUnresolvedReferences,PyUnboundLocalVariable
-    reloading
+    reloading  # noqa: B018
 except NameError:
     reloading = False
 else:
