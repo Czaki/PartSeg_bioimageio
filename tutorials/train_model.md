@@ -38,14 +38,13 @@ In this tutorial we present how the user could use the output from previous segm
 
 3) Collecting data with a low noise ratio may require access to limited and expensive infrastructure. However, collecting only data needed for the model training may be much more straightforward than collecting all experiment data. Then, the preprocessing phase could add artificial noise before starting the train. -->
 
-The data sets for this tutorial are available on [zenodo](https://zenodo.org/record/7335430). When training machine learning models, it is required to split data into two parts *Train* and *Test*. The *Train* size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set but not generally working. When training a deep-learning model on your data set, splitting data in such a way is required. 
-It is also necessary that neither the _Train_ nor _Test_ data contain errors or omissions. The sample data we provided with this tutorial was already cleaned and split. They are split into three folders:
+The data sets for this tutorial are available on [zenodo](https://zenodo.org/record/7335430). For training machine learning models to produce the best results, it is required to split data into two parts *Train* and *Test* sets. The *Train* set size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set and performing much worse in general. It is also necessary that neither the *Train* nor *Test* data contain errors or omissions. The sample data we provided with this tutorial is already cleaned and split. There are three folders, which the reader is encouraged to inspect:
 
-* *Train* - data for train
-* *Test* - data for test
-* *Problematic* - data with a high number of artifacts. Then a user could use it used for manual verification of the model.
+* *Train* - the *Train* set,
+* *Test* - the *Test* set,
+* *Problematic* - data with a high number of artifacts.
 
-Each folder contains PartSeg projects with contains images and segmentations. The raw data on which this dataset is built is also available on [zenodo](https://zenodo.org/record/7335168).
+Each folder contains PartSeg projects with images and segmentations. The raw data on which this dataset is built is also available on [zenodo](https://zenodo.org/record/7335168).
 
 
 
