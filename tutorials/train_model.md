@@ -38,13 +38,14 @@ In this tutorial we present how the user could use the output from previous segm
 
 3) Collecting data with a low noise ratio may require access to limited and expensive infrastructure. However, collecting only data needed for the model training may be much more straightforward than collecting all experiment data. Then, the preprocessing phase could add artificial noise before starting the train. -->
 
-The data sets for this tutorial are available on [zenodo](https://zenodo.org/record/7335430). When training machine learning models it is important to split data into two parts *Train* and *Test*. The size of *Train* should be 80-90% od data, and *Test* should contain 10-20% of the data. Such approach allows to counteract model overfiting, i.e., obtaining models adapted too much to the particular input data set, but not working in general. When training algorithms on own data set it is important to also split them in such a way. It is also important that the data is cleaned, that is it does not contain errors nor omissions. The sample data we provide with this tutorial was aready cleaned and split. It is organized into 3 folders:
+The data sets for this tutorial are available on [zenodo](https://zenodo.org/record/7335430). When training machine learning models, it is required to split data into two parts *Train* and *Test*. The *Train* size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set but not generally working. When training a deep-learning model on your data set, splitting data in such a way is required. 
+It is also necessary that neither the _Train_ nor _Test_ data contain errors or omissions. The sample data we provided with this tutorial was already cleaned and split. They are split into three folders:
 
 * *Train* - data for train
 * *Test* - data for test
-* *Problematic* - data with a high number of artifacts. Could be used for manual verification the model.
+* *Problematic* - data with a high number of artifacts. Then a user could use it used for manual verification of the model.
 
-Each folder contains PartSeg projects with contains images and segmentations. The raw data on which this dataset is build is also available on [zenodo](https://zenodo.org/record/7335168).
+Each folder contains PartSeg projects with contains images and segmentations. The raw data on which this dataset is built is also available on [zenodo](https://zenodo.org/record/7335168).
 
 
 
