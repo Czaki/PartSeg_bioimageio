@@ -50,7 +50,7 @@ Each folder contains PartSeg projects with images and segmentations. The raw dat
 
 ## Google Colab
 
-Run following code only if execute notebook on google colab to setup environment
+Run the following code only if executing notebook on Google Colab to setup the environment
 
 ```python
 # First, make sure that you are using a GPU. For this, go to:
@@ -85,7 +85,7 @@ condacolab.install()
 ```python
 !pip install --no-deps kornia
 !pip install --no-deps git+https://github.com/constantinpape/torch-em
-!pip install --no-deps git+https://github.com/czaki/PartSeg_bioimageio
+!pip install --no-deps git+https://github.com/PartSeg/PartSeg_bioimageio
 ```
 
 ```python
