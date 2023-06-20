@@ -14,22 +14,23 @@ jupyter:
 ---
 
 # Disclaimer
-
-In this tutorial we shows how to improve data labeling using deep learning on PartSeg output. In this version we train the model using pubilicy availabe infrastructure based on google colab environment. Another version on how to use local computational services is placed in `train_model_server.md`
+This tutorial shows how to improve data labeling using deep learning on PartSeg output. In this version, we train the model using publicly available infrastructure based on the Google Colab environment. The version of how to use local computational services is in `train_model_server.md`
 
 
 
 # How to improve data labeling using deep learning on PartSeg output
 
-In this tutorial we discuss how to train a new deep learning model based on (semi)automatic segmentation methods' output.
+This tutorial discusses training a new deep learning model based on (semi)automatic segmentation methods' output.
 
-PartSeg provides several (semi)automatic segmentation methods (see Fig. bellow). They can be used to do segmentation on an input dataset but achieving the best results requires human supervision. For example method `Otsu threshold` requires providing values for some parameters defining number of bins for histogram and choice if otsu is to be calculated on the whole image or only masked part. Also a single method may not be appropriate for the whole dataset and the human user needs to decide on combination of methods and partition of the input data.
+PartSeg provides several (semi)automatic segmentation methods (see Fig. below). They can segment an input dataset, but achieving the best results requires human supervision. For example, the Gauss noise filtering method requires the user to select a Gauss radius and whether the Gauss will be calculated per layer or on the whole image.
 
-In this tutorial we present how the output from previous segmentations done with PartSeg can be used to train a deep learning model. Such model can then be added to PartSeg and used in a fully automated manner, to perform automatic segmentation of similar datasets without human supervision, i.e., the deep learning model would tune the parameters of partition the dataset and apply different methods on different partitions.
+Batch segmenting interesting objects using (semi)automatic methods is usually faster than training a custom model for a given data type. 
+But it is not always possible. Several set of parameters may be required, and data could not be easily partitioned. 
+Or it may not be possible to use semiautomatic methods because of the high noise level for part of data. Then Deep learning may be a good solution. As it is not a problem to add artificial noise to data, it is possible to use (semi)automatic method for preparing train data.
+
+This tutorial presents how a user could use the output from previous segmentations done with PartSeg to train a deep-learning model. Then a user could add such a model to PartSeg and use it fully automated to automatically segment similar datasets from the GUI interface and use PartSeg measurement to extract knowledge.
 
 ![](images/marked_methods.png)
-
-The main advantage of using output of (semi)automatic methods is that preparing train and test sets is much faster and cheaper. On the other hand, automatic deep learning model offers usability improvement.
 
 <!-- There are multiple scenarios when having a working deep learning model could help:
 
@@ -49,7 +50,7 @@ Each folder contains PartSeg projects with contains images and segmentations. Th
 
 
 
-## Google colab
+## Google Colab
 
 Run following code only if execute notebook on google colab to setup environment
 
