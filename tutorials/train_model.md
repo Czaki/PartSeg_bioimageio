@@ -15,7 +15,7 @@ jupyter:
 
 # Disclaimer
 
-This tutorial shows how to train your model using pubilicy availabe infrastructure based on google colab environment. Tutorial for using computational services is placed in `train_model_server.md`
+In this tutorial we shows how to improve data labeling using deep learning on PartSeg output. In this version we train the model using pubilicy availabe infrastructure based on google colab environment. Another version on how to use local computational services is placed in `train_model_server.md`
 
 
 
