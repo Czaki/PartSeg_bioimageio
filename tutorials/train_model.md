@@ -23,7 +23,7 @@ In this tutorial we shows how to improve data labeling using deep learning on Pa
 
 In this tutorial we discuss how to train a new deep learning model based on (semi)automatic segmentation methods' output.
 
-PartSeg provides several (semi)automatic segmentation methods (see Fig....). They can be used to do segmentation on an input dataset but to achieve best results require human supervision. For example "tu method name" requires providing values for some parameters like "tu parametry". Also a single method may not be appropriate for the whole dataset and the human user needs to decide on combination of methods and division of the input data.
+PartSeg provides several (semi)automatic segmentation methods (see bellow Fig). They can be used to do segmentation on an input dataset but to achieve best results require human supervision. For example "Otsu threshold" requires providing values for some parameters like numbers of bins for histogram and if caluclate otsu on whole image or only masked part. Also a single method may not be appropriate for the whole dataset and the human user needs to decide on combination of methods and division of the input data.
 In this tutorial we present how to use the output from previous segmentations done with PartSeg to train a deep learning model. Such model can then be added to PartSeg and used in a fully automated manner, i.e., to perform automatic segmentation of similar datasets without human supervision.
 
 ![](images/marked_methods.png)
@@ -128,7 +128,7 @@ download_and_unpack_data()
 
 ```
 
-It this tutorial we use [torch_em](https://github.com/constantinpape/torch-em) as a wrapper around [pytorch](https://pytorch.org/). Please read its installation [instructions](https://github.com/constantinpape/torch-em#installation). To keep readability of this document part of code is mooved out to `train_util.py` file, which is located next to this notebook.
+It this tutorial we use [torch_em](https://github.com/constantinpape/torch-em) as a wrapper around [pytorch](https://pytorch.org/). Please read its installation [instructions](https://github.com/constantinpape/torch-em#installation). To keep readability of this document part of code is mooved out to `PartSeg_bioimageio.train_util` module.
 
 ```python
 import numpy as np
