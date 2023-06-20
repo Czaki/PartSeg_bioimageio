@@ -38,7 +38,16 @@ In this tutorial we present how the user could use the output from previous segm
 
 3) Collecting data with a low noise ratio may require access to limited and expensive infrastructure. However, collecting only data needed for the model training may be much more straightforward than collecting all experiment data. Then, the preprocessing phase could add artificial noise before starting the train. -->
 
-The data sets for this tutorial are available on [zenodo](https://zenodo.org/record/7335430). For training machine learning models to produce the best results, it is required to split data into two parts *Train* and *Test* sets. The *Train* set size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set and performing much worse in general. It is also necessary that neither the *Train* nor *Test* data contain errors or omissions. The sample data we provided with this tutorial is already cleaned and split. There are three folders, which the reader is encouraged to inspect:
+The data sets for this tutorial are available on [Zenodo](https://zenodo.org/record/7335430). There are multiple ways to share data. 
+We chose Zenodo as it is the best solution in our perception. The main Zenodo advantages are:
+
+1) CERN hosts it with a guarantee of long time persistence 
+2) The entries are versioned so it is possible to update dataset, but with continued access to the previous version to have reproducible science. 
+2) Each entry gets DOI, so it is possible to cite it easily. There is one DOI that always points to the newest version, but also, each version has its own DOI. So the person that uses it could easily cite it. 
+4) The default maximum dataset size is 50GB, but the Zenodo team could increase it on request. 
+
+
+For training machine learning models to produce the best results, it is required to split data into two parts *Train* and *Test* sets. The *Train* set size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set and performing much worse in general. It is also necessary that neither the *Train* nor *Test* data contain errors or omissions. The sample data we provided with this tutorial is already cleaned and split. There are three folders, which the reader is encouraged to inspect:
 
 * *Train* - the *Train* set,
 * *Test* - the *Test* set,
