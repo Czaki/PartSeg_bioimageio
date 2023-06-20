@@ -23,12 +23,13 @@ In this tutorial we shows how to improve data labeling using deep learning on Pa
 
 In this tutorial we discuss how to train a new deep learning model based on (semi)automatic segmentation methods' output.
 
-PartSeg provides several (semi)automatic segmentation methods (see bellow Fig). They can be used to do segmentation on an input dataset but to achieve best results require human supervision. For example "Otsu threshold" requires providing values for some parameters like numbers of bins for histogram and if caluclate otsu on whole image or only masked part. Also a single method may not be appropriate for the whole dataset and the human user needs to decide on combination of methods and division of the input data.
-In this tutorial we present how to use the output from previous segmentations done with PartSeg to train a deep learning model. Such model can then be added to PartSeg and used in a fully automated manner, i.e., to perform automatic segmentation of similar datasets without human supervision.
+PartSeg provides several (semi)automatic segmentation methods (see Fig. bellow). They can be used to do segmentation on an input dataset but achieving the best results requires human supervision. For example method `Otsu threshold` requires providing values for some parameters defining number of bins for histogram and choice if otsu is to be calculated on the whole image or only masked part. Also a single method may not be appropriate for the whole dataset and the human user needs to decide on combination of methods and partition of the input data.
+
+In this tutorial we present how the output from previous segmentations done with PartSeg can be used to train a deep learning model. Such model can then be added to PartSeg and used in a fully automated manner, to perform automatic segmentation of similar datasets without human supervision, i.e., the deep learning model would tune the parameters of partition the dataset and apply different methods on different partitions.
 
 ![](images/marked_methods.png)
 
-The main adventage of using (semi)automatic method output is that preparing train and test sets is much faster and cheaper. On the other hand, automatic deep learning model offers usability improvement.
+The main advantage of using output of (semi)automatic methods is that preparing train and test sets is much faster and cheaper. On the other hand, automatic deep learning model offers usability improvement.
 
 <!-- There are multiple scenarios when having a working deep learning model could help:
 
