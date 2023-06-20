@@ -14,21 +14,19 @@ jupyter:
 ---
 
 # Disclaimer
-This tutorial shows how to improve data labeling using deep learning on PartSeg output. In this version, we train the model using publicly available infrastructure based on the Google Colab environment. The version of how to use local computational services is in `train_model_server.md`
+In this tutorial we show how to improve data labeling using deep learning on PartSeg output. In this version, we train the model using publicly available infrastructure based on the Google Colab environment. The version of how to use local computational services is in `train_model_server.md`
 
 
 
 # How to improve data labeling using deep learning on PartSeg output
 
-This tutorial discusses training a new deep learning model based on (semi)automatic segmentation methods' output.
+In this tutorial we discuss training of a new deep learning model based on (semi)automatic segmentation methods' output.
 
-PartSeg provides several (semi)automatic segmentation methods (see Fig. below). They can segment an input dataset, but achieving the best results requires human supervision. For example, the Gauss noise filtering method requires the user to select a Gauss radius and whether the Gauss will be calculated per layer or on the whole image.
+PartSeg provides several (semi)automatic segmentation methods (see Fig. below). They can segment an input dataset, but achieving the best results requires human supervision. For example, the `Gauss noise filtering` method requires the user to select a Gauss radius and whether the Gauss will be calculated per layer or on the whole image. Another example would be parititioning the dataset into high/low noise parts and using different methods for both partitions.
 
-Batch segmenting interesting objects using (semi)automatic methods is usually faster than training a custom model for a given data type. 
-But it is not always possible. Several set of parameters may be required, and data could not be easily partitioned. 
-Or it may not be possible to use semiautomatic methods because of the high noise level for part of data. Then Deep learning may be a good solution. As it is not a problem to add artificial noise to data, it is possible to use (semi)automatic method for preparing train data.
+It cases where similar experiments are ofthen repeated on different input sets, machine learning or deep learning methods may be used to automate future experiments. This of course requires collecting some training data, which for example can come from precvious experiments.
 
-This tutorial presents how a user could use the output from previous segmentations done with PartSeg to train a deep-learning model. Then a user could add such a model to PartSeg and use it fully automated to automatically segment similar datasets from the GUI interface and use PartSeg measurement to extract knowledge.
+In this tutorial we present how the user could use the output from previous segmentations done with PartSeg to train a deep-learning model. Then the user could add such a model to PartSeg and use it in a fully automated way to segment similar datasets from the GUI interface and do measuremtns in PartSeg to extract knowledge about the segmentation results.
 
 ![](images/marked_methods.png)
 
