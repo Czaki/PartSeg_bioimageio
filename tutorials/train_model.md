@@ -105,7 +105,7 @@ import os
 data_path = os.path.join("data", "neu")
 ```
 
-To download data from zenodo please execute following cell:
+To download data from zenodo please execute the following cell:
 
 ```python
 
@@ -128,7 +128,7 @@ download_and_unpack_data()
 
 ```
 
-It this tutorial we use [torch_em](https://github.com/constantinpape/torch-em) as a wrapper around [pytorch](https://pytorch.org/). Please read its installations [instruction](https://github.com/constantinpape/torch-em#installation). To keep readability of this document part of code will be in `train_util.py` file next to this notebook
+It this tutorial we use [torch_em](https://github.com/constantinpape/torch-em) as a wrapper around [pytorch](https://pytorch.org/). Please read its installation [instructions](https://github.com/constantinpape/torch-em#installation). To keep readability of this document part of code is mooved out to `train_util.py` file, which is located next to this notebook.
 
 ```python
 import numpy as np
@@ -151,7 +151,7 @@ ITERATIONS=500
 SAVE_ROOT="./checkpoint"
 ```
 
-PartSeg allows that ROI Extraction (Data labeling) algorith could return multiple labeling
+PartSeg allows for ROI Extraction (Data labeling) algorithm to return multiple labeling
 of data for better visualization. The required one is "ROI" in which each component is marked with separate number.
 
 In the [Trapalyzer](https://github.com/Czaki/Trapalyzer) that is used for generate labeling in this project following additional labeling are provided:
