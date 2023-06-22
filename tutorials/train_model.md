@@ -20,9 +20,9 @@ In this tutorial we show how to improve data labeling using deep learning on Par
 
 # How to improve data labeling using deep learning on PartSeg output
 
-In this tutorial we discuss training of a new deep learning model based on (semi)automatic segmentation methods' output.
+In this tutorial we discuss training of a new deep learning model based on (semi)automatic segmentation methods output.
 
-PartSeg provides several (semi)automatic segmentation methods (see Fig. below). They can segment an input dataset, but achieving the best results requires human supervision. For example, the `Gauss noise filtering` method requires the user to select a Gauss radius and whether the Gauss will be calculated per layer or on the whole image. Another example would be parititioning the dataset into high/low noise parts and using different methods for both partitions.
+PartSeg provides several (semi)automatic segmentation methods (see red box in Fig. below). They can segment an input dataset, but achieving the best results requires human supervision. For example, the `Gauss noise filtering` method requires the user to select a Gauss radius and whether the Gauss will be calculated per layer or on the whole image. Another example would be parititioning the dataset into high/low noise parts and using different methods for both partitions.
 
 It cases where similar experiments are ofthen repeated on different input sets, machine learning or deep learning methods may be used to automate future experiments. This of course requires collecting some training data, which for example can come from precvious experiments.
 
@@ -38,14 +38,12 @@ In this tutorial we present how the user could use the output from previous segm
 
 3) Collecting data with a low noise ratio may require access to limited and expensive infrastructure. However, collecting only data needed for the model training may be much more straightforward than collecting all experiment data. Then, the preprocessing phase could add artificial noise before starting the train. -->
 
-The data sets for this tutorial are available on [Zenodo](https://zenodo.org/record/7335430). There are multiple ways to share data. 
-We chose Zenodo as it is the best solution in our perception. The main Zenodo advantages are:
+The data sets for this tutorial are available on [Zenodo](https://zenodo.org/record/7335430). There are multiple ways to share data. In this tutorial we recommend Zenodo. It has the following advantages:
 
-1) CERN hosts it with a guarantee of long time persistence 
-2) The entries are versioned so it is possible to update dataset, but with continued access to the previous version to have reproducible science. 
-2) Each entry gets DOI, so it is possible to cite it easily. There is one DOI that always points to the newest version, but also, each version has its own DOI. So the person that uses it could easily cite it. 
+1) It is hostted by CERN with a guarantee of long time persistence.
+2) The entries are versioned so it is possible to update dataset and at the same time keep access to the previous version which is crucial for reproducible science. 
+2) Each entry gets DOI, so it is possible to cite it easily. There is one DOI that always points to the newest version, but also, each version has its own DOI.
 4) The default maximum dataset size is 50GB, but the Zenodo team could increase it on request. 
-
 
 For training machine learning models to produce the best results, it is required to split data into two parts *Train* and *Test* sets. The *Train* set size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set and performing much worse in general. It is also necessary that neither the *Train* nor *Test* data contain errors or omissions. The sample data we provided with this tutorial is already cleaned and split. There are three folders, which the reader is encouraged to inspect:
 
@@ -53,7 +51,7 @@ For training machine learning models to produce the best results, it is required
 * *Test* - the *Test* set,
 * *Problematic* - data with a high number of artifacts.
 
-Each folder contains PartSeg projects with images and segmentations. The raw data on which this dataset is built is also available on [zenodo](https://zenodo.org/record/7335168).
+Each folder contains PartSeg projects with images and segmentations. The raw data on which this dataset is built on is also available on [zenodo](https://zenodo.org/record/7335168).
 
 
 
@@ -160,22 +158,21 @@ ITERATIONS=500
 SAVE_ROOT="./checkpoint"
 ```
 
-PartSeg allows for ROI Extraction (Data labeling) algorithm to return multiple labeling
-of data for better visualization. The required one is "ROI" in which each component is marked with separate number.
+PartSeg allows for ROI Extraction (Data labeling) algorithm to return multiple labelings of data for better visualization. The required one is "ROI" in which each component is marked with separate number.
 
 In the [Trapalyzer](https://github.com/Czaki/Trapalyzer) that is used for generate labeling in this project following additional labeling are provided:
 
-* PMN neu: polymorphonuclear, unstimulated neutrophils
-* RND neu: cells with decondensed chromatin and rounded nucleus
-* RUP neu: neutrophils with ruptured nuclear envelope
-* PER neu: neutrophils with a permeabilized plasma membrane
-* Bacteria: e-coli bacteria
-* NET: neutrophile net
-* Unknown intra: not classified objects for intracellurar probe
-* Unknown extra: not classified objects for extracellular probe
-* Labeling: Each class of objects are represented by a single number
+* PMN neu: polymorphonuclear, unstimulated neutrophils,
+* RND neu: cells with decondensed chromatin and rounded nucleus,
+* RUP neu: neutrophils with ruptured nuclear envelope,
+* PER neu: neutrophils with a permeabilized plasma membrane,
+* Bacteria: e-coli bacteria,
+* NET: neutrophile net,
+* Unknown intra: not classified objects for intracellurar probe,
+* Unknown extra: not classified objects for extracellular probe,
+* Labeling: Each class of objects are represented by a single number.
 
-In this tutorial we would like to create model that will predict to which class belong a given object. Because of this we will use "Labeling" as input to model
+In this tutorial we would like to create model that will predict to which class a given object belongs. Because of this we will use "Labeling" as input to model.
 
 ```python
 NAME_OF_ROI_LABELING="Labeling"
@@ -240,7 +237,7 @@ trainer.fit(iterations=ITERATIONS)
 
 ## Model exporting
 
-Used framework require additional export steep to save model in bioimageio format. The export steep need to be done on same machine as train because of hardcoded path.
+Used framework requires additional export steep to save model in bioimageio format. The export steep needs to be done on the same machine as training because of hardcoded path.
 
 ```python
 from torch_em.util.modelzoo import export_bioimageio_model
