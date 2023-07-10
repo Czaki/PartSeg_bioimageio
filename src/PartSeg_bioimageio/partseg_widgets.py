@@ -57,7 +57,7 @@ class BioImageWidget(Container):
             for i in range(len(self.channel_select_li), channels_num):
                 w = create_widget(
                     annotation=Channel,
-                    label=f"Channel {i}",
+                    label=f"Channel {i+1}",
                     options={"tooltip": "Select channel"},
                 )
                 if isinstance(w, EmptyWidget):
