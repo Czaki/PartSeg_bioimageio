@@ -1,4 +1,3 @@
-# How to use bioimageio model in PartSeg
 
 
 `This tutorial requires full implement of interface for screenshots`
@@ -13,43 +12,48 @@
 Powiedzenie, że można uzyć w batchprocessingu i ostrzerzenie o tym, że jeżeli instalacja pytorcha używa cudy,
 to trzeba uważać na pamięć GPU.
 
-## Download model
+# How to use bioimageio model in PartSeg
 
-Open [bioimage.io](https://bioimage.io/) and select model that you would like to test on your data. We will use our [model](put_link) for segment neutrofile 
+In this tutorial we show how to use deep learning models in *BioImage.IO* compatible format from *PartSeg* GUI using *PartSeg_bioimageio* plugin. 
 
-After download model from website unpack model. 
+Such model need to be downloaded and user need to know on which channels are required by model. Typically this requires dowloading and umpacing the model, 
+loading the input data in PartSeg, selecting chanels that are required by model and executing. 
 
-## Prepare data
 
-To load the data user could drag and drop the file to PartSeg window or use `File->Open` menu.
-In this tutorial we will use the image from [Zenodo](https://zenodo.org/record/7335430).
 
-Open one of images from selected dataset:
+## Model selction and installation
+
+Visit [BioImage.IO](https://bioimage.io/) and download model that you would like to test on your data. In this tutorial we use our [model](put_link) for segmentation and classification of neutrofile that is going to be submitted to BioImage.IO soon. The downloaded moded should be extracted ito directory of your choosing.
+
+## Preparation of data for processing with the model
+
+In this tutorial we use a single image from [dataset](https://zenodo.org/record/7335430) published on Zenodo.
+
+To load the data in PartSeg the user could drag and drop the file to PartSeg window or use *Open* button.
 
 ![Open file view](images/open_file_tr.png)
 
 
-## Model selection
+## Executing the model in PartSeg
 
 On the top of the right panel select Bioimageio multilabel method:
 
 ![Bioimageio multilabel selection](images/select_model_tr.png)
 
-Use "Select file" button to select `rdf.yaml` file from already selected model.
-After PartSeg parse model parameters, based on model description select which channel from image constains data expected by model. 
+Use "Select file" button end point to `rdf.yaml` in the location where the model has been extracted.
+After PartSeg parses model parameters, based on model description, select which channel from image constains data expected by the model. 
 
-You could Also adjust "Reconstruction Parameters" for remove artificial objects recognized by algorithm. 
+You could also adjust "Reconstruction Parameters" to remove artificial objects recognized by the model. 
 
-The Background Threshold is used for confidential level above which output of 
-deep learn model is treated as true (from range 0-1)
+The *Background threshold* specifies minimum confidence level for classification of every pixel. Values bellow this threshold are treated as background. 
 
-Minimum size is responsible for removing objects smaller than given size in px.
+*Minimum size* is responsible for filtering out objects smaller than given size in pixels.
 
 
 ![set basic model parameters](images/methd_params_adjust.png)
 
-After set channels click **Execute** button and wait for result. 
+After channels are selected click **Execute** button and wait for result. 
 
 ![result of model execute](images/model_output.png).
 
-The information how to convert this to batch processing could be found in PartSeg official [documentation](https://partseg.readthedocs.io/en/latest/interface-overview/interface-overview.html#batch-processing)
+The information how to convert these steps to batch processing can be found in PartSeg official [documentation](https://partseg.readthedocs.io/en/latest/interface-overview/interface-overview.html#batch-processing).
