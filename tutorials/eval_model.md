@@ -1,23 +1,9 @@
-
-
-`This tutorial requires full implement of interface for screenshots`
-
-1. Ładowanie danych do PartSega przez przeciągniecie
-2. wybranie z listy dostępnych metod segmentacji metodę z tej paczki
-3. wybranie modelu z dysku
-4. ustawienie parametrów rekonstrukcji
-5. uruchomienie segmentacji
-6. analiza wyników
-
-Powiedzenie, że można uzyć w batchprocessingu i ostrzerzenie o tym, że jeżeli instalacja pytorcha używa cudy,
-to trzeba uważać na pamięć GPU.
-
 # How to use bioimageio model in PartSeg
 
-In this tutorial we show how to use deep learning models in *BioImage.IO* compatible format from *PartSeg* GUI using *PartSeg_bioimageio* plugin. 
+In this tutorial we show how to use deep learning models in *BioImage.IO* compatible format from *PartSeg* GUI using *PartSeg_bioimageio* plugin.
 
-Such model need to be downloaded and user need to know on which channels are required by model. Typically this requires dowloading and umpacing the model, 
-loading the input data in PartSeg, selecting chanels that are required by model and executing. 
+Such model need to be downloaded and user need to know on which channels are required by model. Typically this requires dowloading and umpacing the model,
+loading the input data in PartSeg, selecting chanels that are required by model and executing.
 
 
 
@@ -41,18 +27,18 @@ On the top of the right panel select Bioimageio multilabel method:
 ![Bioimageio multilabel selection](images/select_model_tr.png)
 
 Use "Select file" button end point to `rdf.yaml` in the location where the model has been extracted.
-After PartSeg parses model parameters, based on model description, select which channel from image constains data expected by the model. 
+After PartSeg parses model parameters, based on model description, select which channel from image constains data expected by the model.
 
-You could also adjust "Reconstruction Parameters" to remove artificial objects recognized by the model. 
+You could also adjust "Reconstruction Parameters" to remove artificial objects recognized by the model.
 
-The *Background threshold* specifies minimum confidence level for classification of every pixel. Values bellow this threshold are treated as background. 
+The *Background threshold* specifies minimum confidence level for classification of every pixel. Values bellow this threshold are treated as background.
 
 *Minimum size* is responsible for filtering out objects smaller than given size in pixels.
 
 
 ![set basic model parameters](images/methd_params_adjust.png)
 
-After channels are selected click **Execute** button and wait for result. 
+After channels are selected click **Execute** button and wait for result.
 
 ![result of model execute](images/model_output.png).
 
