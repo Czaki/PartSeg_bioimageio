@@ -48,7 +48,7 @@ def get_settings() -> Settings:
         settings_path = get_save_dir() / SAVE_PATH
         with suppress(Exception):
             if settings_path.exists():
-                _settings = Settings.parse_file(settings_path)  # noqa: PLW0603
+                _settings = Settings.parse_file(settings_path)
                 return _settings
         _settings = Settings()
     return _settings

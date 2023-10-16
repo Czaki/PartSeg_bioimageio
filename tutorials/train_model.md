@@ -41,9 +41,9 @@ In this tutorial we present how the user could use the output from previous segm
 The data sets for this tutorial are available on [Zenodo](https://zenodo.org/record/7335430). There are multiple ways to share data. In this tutorial we recommend Zenodo. It has the following advantages:
 
 1) It is hostted by CERN with a guarantee of long time persistence.
-2) The entries are versioned so it is possible to update dataset and at the same time keep access to the previous version which is crucial for reproducible science. 
+2) The entries are versioned so it is possible to update dataset and at the same time keep access to the previous version which is crucial for reproducible science.
 2) Each entry gets DOI, so it is possible to cite it easily. There is one DOI that always points to the newest version, but also, each version has its own DOI.
-4) The default maximum dataset size is 50GB, but the Zenodo team could increase it on request. 
+4) The default maximum dataset size is 50GB, but the Zenodo team could increase it on request.
 
 For training machine learning models to produce the best results on future data, i.e., to generalise well, it is important to split the input data into two parts *Train* and *Test* sets. The *Train* set size should be 80-90% of the data, and *Test* should contain 10-20%. Such an approach allows to counteract model overfitting, i.e., obtaining models adapted too much to the particular input data set and performing much worse in general. It is also important that neither the *Train* nor *Test* data contain errors or omissions. The sample data we provid in this tutorial is already cleaned and appropriately split. There are three folders, which the reader is encouraged to inspect:
 
