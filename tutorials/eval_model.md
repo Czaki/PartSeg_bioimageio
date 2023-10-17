@@ -9,7 +9,7 @@ loading the input data in PartSeg, selecting chanels that are required by model 
 
 ## Model selction and installation
 
-Visit [BioImage.IO](https://bioimage.io/) and download model that you would like to test on your data. In this tutorial we use our [model](put_link) for segmentation and classification of neutrofile that is going to be submitted to BioImage.IO soon. The downloaded moded should be extracted ito directory of your choosing.
+Visit [BioImage.IO](https://bioimage.io/) and download model that you would like to test on your data. In this tutorial we use our [model](https://zenodo.org/doi/10.5281/zenodo.10011460) for segmentation and classification of neutrofile that is going to be submitted to BioImage.IO soon. The downloaded moded should be extracted ito directory of your choosing.
 
 ## Preparation of data for processing with the model
 
